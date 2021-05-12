@@ -33,11 +33,7 @@ class HEOM():
         self.cat_ix = cat_ix
         self.col_ix = [i for i in range(X.shape[1])]
         # Get the normalization scheme for numerical variables
-        if normalised == "std":
-            self.range = 4* np.nanstd(X, axis = 0)
-        else:
-            self.range = np.nanmax(X, axis = 0) - np.nanmin(X, axis = 0)
-    
+        
     def heom(self, x, y):
         """ Distance metric function which calculates the distance
         between two instances. Handles heterogeneous data and missing values.
@@ -72,11 +68,7 @@ class HEOM():
         results_array[cat_ix]= np.not_equal(x[cat_ix], y[cat_ix]) * 1 # use "* 1" to convert it into int
 
         # Get numerical indices without missing values elements
-        num_ix = np.setdiff1d(self.col_ix, self.cat_ix)
-        num_ix = np.setdiff1d(num_ix, nan_ix)
-        # Calculate the distance for numerical elements
-        results_array[num_ix] = np.abs(x[num_ix] - y[num_ix]) / self.range[num_ix]
-        
+          
         # Return the final result
         # Square root is not computed in practice
         # As it doesn't change similarity between instances
